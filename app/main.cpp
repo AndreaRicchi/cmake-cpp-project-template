@@ -1,6 +1,9 @@
 #include <iostream>
 
+#include "lib.hpp"
+
 int main() {
-    std::cout << "Hello World!\n";
+    Lib lib;
+    std::cout << lib.helloWorldMsg();
     return 0;
 }
