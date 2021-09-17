@@ -12,6 +12,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(BUILD_TEST "Enable building test applications" OFF)
 option(RUN_CLANG_TIDY "Enable code analysis with clang-tidy" OFF)
 option(RUN_CPPCHECK "Enable code analysis with cppcheck" OFF)
+option(RUN_IWYU "Enable code analysis with include-what-you-use" OFF)
 
 if (RUN_CLANG_TIDY)
     include(cmake/clang-tidy.cmake)
@@ -19,6 +20,10 @@ endif()
 
 if (RUN_CPPCHECK)
     include(cmake/cppcheck.cmake)
+endif()
+
+if (RUN_IWYU)
+    include(cmake/iwyu.cmake)
 endif()
 
 add_subdirectory(src)
