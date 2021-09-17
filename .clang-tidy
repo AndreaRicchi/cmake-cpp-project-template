@@ -56,4 +56,4 @@ Checks: >
 WarningsAsErrors: "*"
 
 # Analyze only project source code.
-HeaderFilterRegex: "(src/|app/|tests/).*\\.(hpp|cpp)$"
+HeaderFilterRegex: '(src|app|tests)[^/]*\.(hpp|cpp)$'
