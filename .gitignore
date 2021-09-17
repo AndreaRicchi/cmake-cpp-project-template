@@ -1,5 +1,6 @@
 ### project_template ###
 project_template_exe
+project_template_exe_tests*
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/cmake,c++
