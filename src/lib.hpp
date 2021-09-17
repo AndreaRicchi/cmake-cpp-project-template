@@ -4,5 +4,5 @@
 
 class Lib {
    public:
-    std::string helloWorldMsg() const;
+    [[nodiscard]] static std::string helloWorldMsg();
 };
