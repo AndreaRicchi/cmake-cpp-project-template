@@ -1,0 +1,72 @@
+#!/bin/bash -e
+
+usage()
+{
+	echo "$0 [options]"
+	echo ""
+	echo "  debug|release|reldebug|small"
+	echo "  debug    - build a debug build"
+	echo "  release  - build a release build (default)"
+	echo "  reldebug - build a release build with debug information"
+	echo "  small    - build a small release build"
+	echo ""
+	echo "  -sdk <environment-setup-path>"
+	echo "             build using cross-compiler SDK"
+	exit 1
+}
+
+export CMAKE_BUILD_TYPE=Release
+
+while [ $# -gt 0 ]; do
+	case $1 in
+		debug)
+			shift
+			export CMAKE_BUILD_TYPE=Debug
+			;;
+		release)
+			shift
+			export CMAKE_BUILD_TYPE=Release
+			;;
+		small)
+			shift
+			export CMAKE_BUILD_TYPE=MinSizeRel
+			;;
+		-h)
+			shift
+			usage
+			;;
+		--help)
+			shift
+			usage
+			;;
+		-sdk)
+			shift
+			if [ $# = 0 ]; then
+				echo "Missing parameter for -sdk!"
+				echo ""
+				usage
+			fi
+			SDK_ENV=$1
+			shift
+			;;
+		*)
+			break
+			;;
+	esac
+done
+
+SCRIPT=$(readlink -f "$0")
+SCRIPT_PATH=$(dirname "$SCRIPT")
+
+cd "$SCRIPT_PATH"/..
+
+if [ ! -z "$SDK_ENV" ]; then
+	BUILD_DIR=build/arm
+	source "$SDK_ENV"
+else
+	BUILD_DIR=build/x86
+fi
+
+cmake -S . -B "$BUILD_DIR"/"$CMAKE_BUILD_TYPE"
+echo ""
+cmake --build "$BUILD_DIR"/"$CMAKE_BUILD_TYPE" --target all

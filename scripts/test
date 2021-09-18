@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+SCRIPT=$(readlink -f "$0")
+SCRIPT_PATH=$(dirname "$SCRIPT")
+
+cd "$SCRIPT_PATH"/..
+
+cmake -S . -B build -DBUILD_TEST=ON
+echo
+cmake --build build --target all
+echo
+cmake --build build --target test

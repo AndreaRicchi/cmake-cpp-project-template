@@ -1,7 +1,11 @@
 ### project_template ###
 project_template_exe
 project_template_exe_tests*
-
+clang-tidy-analysis.log
+cppcheck-analysis.log
+iwyu-analysis.log
+lwyu-analysis.log
+build/
 
 # Created by https://www.toptal.com/developers/gitignore/api/cmake,c++
 # Edit at https://www.toptal.com/developers/gitignore?templates=cmake,c++
