@@ -69,4 +69,4 @@ fi
 
 cmake -S . -B "$BUILD_DIR"/"$CMAKE_BUILD_TYPE"
 echo ""
-cmake --build "$BUILD_DIR"/"$CMAKE_BUILD_TYPE" --target all
+cmake --build "$BUILD_DIR"/"$CMAKE_BUILD_TYPE" --target all -- -j $(($(nproc) / 2))

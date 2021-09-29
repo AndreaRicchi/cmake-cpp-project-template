@@ -7,6 +7,6 @@ cd "$SCRIPT_PATH"/..
 
 cmake -S . -B build -DBUILD_TEST=ON
 echo
-cmake --build build --target all
+cmake --build build --target all -- -j $(($(nproc) / 2))
 echo
 cmake --build build --target test

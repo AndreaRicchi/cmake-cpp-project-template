@@ -10,7 +10,7 @@ echo "Running Clang-tidy"
 echo
 cmake -S . -B "$BUILD_FOLDER" -DRUN_CLANG_TIDY=ON
 echo
-cmake --build "$BUILD_FOLDER" --target all 2>&1 | tee clang-tidy-analysis.log
+cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee clang-tidy-analysis.log
 echo
 
 rm -rf "$BUILD_FOLDER"
@@ -19,7 +19,7 @@ echo "Running CppCheck"
 echo
 cmake -S . -B "$BUILD_FOLDER" -DRUN_CPPCHECK=ON
 echo
-cmake --build "$BUILD_FOLDER" --target all 2>&1 | tee cppcheck-analysis.log
+cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee cppcheck-analysis.log
 echo
 
 rm -rf "$BUILD_FOLDER"
@@ -28,7 +28,7 @@ echo "Running IWYU"
 echo
 cmake -S . -B "$BUILD_FOLDER" -DRUN_IWYU=ON
 echo
-cmake --build "$BUILD_FOLDER" --target all 2>&1 | tee iwyu-analysis.log
+cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee iwyu-analysis.log
 echo
 
 rm -rf "$BUILD_FOLDER"
@@ -37,4 +37,4 @@ echo "Running LWYU"
 echo
 cmake -S . -B "$BUILD_FOLDER" -DRUN_LWYU=ON
 echo
-cmake --build "$BUILD_FOLDER" --target all 2>&1 | tee lwyu-analysis.log
+cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee lwyu-analysis.log
