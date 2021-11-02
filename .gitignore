@@ -4,7 +4,6 @@ project_template_exe_tests*
 clang-tidy-analysis.log
 cppcheck-analysis.log
 iwyu-analysis.log
-lwyu-analysis.log
 build/
 
 # Created by https://www.toptal.com/developers/gitignore/api/cmake,c++

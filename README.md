@@ -3,15 +3,23 @@ Template for C++ CMake prjects, including application, test and code analysis
 
 ## Build
 ```bash
-$ cmake -S . -B build
-$ cmake --build build --target all
+$ ./scripts/build
+```
+
+## Test
+```bash
+$ ./scripts/test
+```
+
+## Code analysis
+```bash
+$ ./scripts/analyze
 ```
 
 ## CMake Options
-| OPTION         	| DESCRIPTION                                    	|
-|----------------	|------------------------------------------------	|
-| BUILD_TEST     	| Enable building test applications              	|
-| RUN_CLANG_TIDY 	| Enable code analysis with clang-tidy           	|
-| RUN_CPPCHECK   	| Enable code analysis with cppcheck             	|
-| RUN_IWYU       	| Enable code analysis with include-what-you-use 	|
-| RUN_LWYU       	| Enable code analysis with link-what-you-use    	|
+| OPTION                        | DESCRIPTION                                       |
+|-------------------------------|---------------------------------------------------|
+| ENABLE_TESTING                | Enable building test applications                 |
+| ENABLE_CLANG_TIDY             | Enable Enable static analysis with clang-tidy     |
+| ENABLE_CPPCHECK               | Enable static analysis with cppcheck              |
+| ENABLE_INCLUDE_WHAT_YOU_USE   | Enable static analysis with include-what-you-use  |

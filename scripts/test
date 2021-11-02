@@ -2,11 +2,12 @@
 
 SCRIPT=$(readlink -f "$0")
 SCRIPT_PATH=$(dirname "$SCRIPT")
+BUILD_FOLDER="build/tests"
 
 cd "$SCRIPT_PATH"/..
 
-cmake -S . -B build -DBUILD_TEST=ON
+cmake -S . -B "$BUILD_FOLDER" -DENABLE_TESTING=ON
 echo
-cmake --build build --target all -- -j $(($(nproc) / 2))
+cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2))
 echo
-cmake --build build --target test
+cmake --build "$BUILD_FOLDER" --target test
