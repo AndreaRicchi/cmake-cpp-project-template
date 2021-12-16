@@ -15,21 +15,21 @@ usage()
 	exit 1
 }
 
-export CMAKE_BUILD_TYPE=Release
+BUILD_TYPE=Release
 
 while [ $# -gt 0 ]; do
 	case $1 in
 		debug)
 			shift
-			export CMAKE_BUILD_TYPE=Debug
+			BUILD_TYPE=Debug
 			;;
 		release)
 			shift
-			export CMAKE_BUILD_TYPE=Release
+			BUILD_TYPE=Release
 			;;
 		small)
 			shift
-			export CMAKE_BUILD_TYPE=MinSizeRel
+			BUILD_TYPE=MinSizeRel
 			;;
 		-h)
 			shift
@@ -61,12 +61,14 @@ SCRIPT_PATH=$(dirname "$SCRIPT")
 cd "$SCRIPT_PATH"/..
 
 if [ ! -z "$SDK_ENV" ]; then
+	TARGET=ARM
 	BUILD_DIR=build/arm
 	source "$SDK_ENV"
 else
+	TARGET=
 	BUILD_DIR=build/x86
 fi
 
-cmake -S . -B "$BUILD_DIR"/"$CMAKE_BUILD_TYPE"
+cmake -S . -B "$BUILD_DIR"/"$BUILD_TYPE" -DCMAKE_BUILD_TYPE="$BUILD_TYPE" -DTARGET="$TARGET"
 echo ""
-cmake --build "$BUILD_DIR"/"$CMAKE_BUILD_TYPE" --target all -- -j $(($(nproc) / 2))
+cmake --build "$BUILD_DIR"/"$BUILD_TYPE" --target all -- -j $(($(nproc) / 2))

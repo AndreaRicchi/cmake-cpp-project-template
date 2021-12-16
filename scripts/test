@@ -6,7 +6,7 @@ BUILD_FOLDER="build/tests"
 
 cd "$SCRIPT_PATH"/..
 
-cmake -S . -B "$BUILD_FOLDER" -DENABLE_TESTING=ON
+cmake -S . -B "$BUILD_FOLDER" -DENABLE_TESTING=ON -DCMAKE_BUILD_TYPE=Debug
 echo
 cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2))
 echo

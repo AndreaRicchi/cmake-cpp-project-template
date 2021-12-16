@@ -8,7 +8,7 @@ cd "$SCRIPT_PATH"/..
 
 echo "Running Clang-tidy"
 echo
-cmake -S . -B "$BUILD_FOLDER" -DENABLE_CLANG_TIDY=ON
+cmake -S . -B "$BUILD_FOLDER" -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug
 echo
 cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee clang-tidy-analysis.log
 echo
@@ -17,7 +17,7 @@ rm -rf "$BUILD_FOLDER"
 
 echo "Running CppCheck"
 echo
-cmake -S . -B "$BUILD_FOLDER" -DENABLE_CPPCHECK=ON
+cmake -S . -B "$BUILD_FOLDER" -DENABLE_CPPCHECK=ON -DCMAKE_BUILD_TYPE=Debug
 echo
 cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee cppcheck-analysis.log
 echo
@@ -26,7 +26,7 @@ rm -rf "$BUILD_FOLDER"
 
 echo "Running IWYU"
 echo
-cmake -S . -B "$BUILD_FOLDER" -DENABLE_INCLUDE_WHAT_YOU_USE=ON
+cmake -S . -B "$BUILD_FOLDER" -DENABLE_INCLUDE_WHAT_YOU_USE=ON -DCMAKE_BUILD_TYPE=Debug
 echo
 cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee iwyu-analysis.log
 echo
