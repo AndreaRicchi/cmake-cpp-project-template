@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 project(project_template)
+
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
 
