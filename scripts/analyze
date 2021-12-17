@@ -1,34 +1,87 @@
 #!/bin/sh -e
 
+usage()
+{
+	echo "$0 [options]"
+	echo ""
+	echo "  all|clang-tidy|cppcheck|iwyu"
+	echo "  all        - run all code analisys"
+	echo "  clang-tidy - run clang-tidy code analisys"
+	echo "  cppcheck   - run cppcheck code analisys"
+	echo "	iwyu       - run include-what-you-use code analisys"
+	exit 1
+}
+
+RUN_CLANG_TIDY=true
+RUN_CPPCHECK=true
+RUN_IWYU=true
+
+while [ $# -gt 0 ]; do
+	case $1 in
+		all)
+			shift
+			;;
+		clang-tidy)
+			shift
+			RUN_CLANG_TIDY=true
+			RUN_CPPCHECK=false
+			RUN_IWYU=false
+			;;
+		cppcheck)
+			shift
+			RUN_CLANG_TIDY=false
+			RUN_CPPCHECK=true
+			RUN_IWYU=false
+			;;
+		iwyu)
+			shift
+			RUN_CLANG_TIDY=false
+			RUN_CPPCHECK=false
+			RUN_IWYU=true
+			;;
+		-h)
+			shift
+			usage
+			;;
+		--help)
+			shift
+			usage
+			;;
+		*)
+			break
+			;;
+	esac
+done
+
 SCRIPT=$(readlink -f "$0")
 SCRIPT_PATH=$(dirname "$SCRIPT")
 BUILD_FOLDER="build/analysis"
 
 cd "$SCRIPT_PATH"/..
 
-echo "Running Clang-tidy"
-echo
-cmake -S . -B "$BUILD_FOLDER" -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug
-echo
-cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee clang-tidy-analysis.log
-echo
+if [ "$RUN_CLANG_TIDY" = true ] ; then
+	echo "Running Clang-tidy"
+	echo
+	cmake -S . -B "$BUILD_FOLDER"/clang-tidy -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug
+	echo
+	cmake --build "$BUILD_FOLDER"/clang-tidy --target all -- -j $(($(nproc) / 2)) 2>&1 | tee clang-tidy-analysis.log
+	echo
+fi
 
-rm -rf "$BUILD_FOLDER"
+if [ "$RUN_CPPCHECK" = true ] ; then
+	echo "Running CppCheck"
+	echo
+	cmake -S . -B "$BUILD_FOLDER"/cppcheck -DENABLE_CPPCHECK=ON -DCMAKE_BUILD_TYPE=Debug
+	echo
+	cmake --build "$BUILD_FOLDER"/cppcheck --target all -- -j $(($(nproc) / 2)) 2>&1 | tee cppcheck-analysis.log
+	echo
+fi
 
-echo "Running CppCheck"
-echo
-cmake -S . -B "$BUILD_FOLDER" -DENABLE_CPPCHECK=ON -DCMAKE_BUILD_TYPE=Debug
-echo
-cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee cppcheck-analysis.log
-echo
-
-rm -rf "$BUILD_FOLDER"
-
-echo "Running IWYU"
-echo
-cmake -S . -B "$BUILD_FOLDER" -DENABLE_INCLUDE_WHAT_YOU_USE=ON -DCMAKE_BUILD_TYPE=Debug
-echo
-cmake --build "$BUILD_FOLDER" --target all -- -j $(($(nproc) / 2)) 2>&1 | tee iwyu-analysis.log
-echo
-
-rm -rf "$BUILD_FOLDER"
+if [ "$RUN_IWYU" = true ] ; then
+	echo "Running IWYU"
+	echo
+	cmake -S . -B "$BUILD_FOLDER"/iwyu -DENABLE_INCLUDE_WHAT_YOU_USE=ON -DCMAKE_BUILD_TYPE=Debug
+	echo
+	cmake --build "$BUILD_FOLDER"/iwyu --target all -- -j $(($(nproc) / 2)) 2>&1 | tee iwyu-analysis.log
+	echo
+fi
