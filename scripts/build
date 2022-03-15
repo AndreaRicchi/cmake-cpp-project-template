@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
-usage()
-{
+usage() {
 	echo "$0 [options]"
 	echo ""
 	echo "  debug|release|reldebug|small"
@@ -19,39 +18,39 @@ BUILD_TYPE=Release
 
 while [ $# -gt 0 ]; do
 	case $1 in
-		debug)
-			shift
-			BUILD_TYPE=Debug
-			;;
-		release)
-			shift
-			BUILD_TYPE=Release
-			;;
-		small)
-			shift
-			BUILD_TYPE=MinSizeRel
-			;;
-		-h)
-			shift
+	debug)
+		shift
+		BUILD_TYPE=Debug
+		;;
+	release)
+		shift
+		BUILD_TYPE=Release
+		;;
+	small)
+		shift
+		BUILD_TYPE=MinSizeRel
+		;;
+	-h)
+		shift
+		usage
+		;;
+	--help)
+		shift
+		usage
+		;;
+	-sdk)
+		shift
+		if [ $# = 0 ]; then
+			echo "Missing parameter for -sdk!"
+			echo ""
 			usage
-			;;
-		--help)
-			shift
-			usage
-			;;
-		-sdk)
-			shift
-			if [ $# = 0 ]; then
-				echo "Missing parameter for -sdk!"
-				echo ""
-				usage
-			fi
-			SDK_ENV=$1
-			shift
-			;;
-		*)
-			break
-			;;
+		fi
+		SDK_ENV=$1
+		shift
+		;;
+	*)
+		break
+		;;
 	esac
 done
 

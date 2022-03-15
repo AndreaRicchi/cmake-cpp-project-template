@@ -1,7 +1,6 @@
 #!/bin/sh -e
 
-usage()
-{
+usage() {
 	echo "$0 [options]"
 	echo ""
 	echo "  all|clang-tidy|cppcheck|iwyu"
@@ -18,38 +17,38 @@ RUN_IWYU=true
 
 while [ $# -gt 0 ]; do
 	case $1 in
-		all)
-			shift
-			;;
-		clang-tidy)
-			shift
-			RUN_CLANG_TIDY=true
-			RUN_CPPCHECK=false
-			RUN_IWYU=false
-			;;
-		cppcheck)
-			shift
-			RUN_CLANG_TIDY=false
-			RUN_CPPCHECK=true
-			RUN_IWYU=false
-			;;
-		iwyu)
-			shift
-			RUN_CLANG_TIDY=false
-			RUN_CPPCHECK=false
-			RUN_IWYU=true
-			;;
-		-h)
-			shift
-			usage
-			;;
-		--help)
-			shift
-			usage
-			;;
-		*)
-			break
-			;;
+	all)
+		shift
+		;;
+	clang-tidy)
+		shift
+		RUN_CLANG_TIDY=true
+		RUN_CPPCHECK=false
+		RUN_IWYU=false
+		;;
+	cppcheck)
+		shift
+		RUN_CLANG_TIDY=false
+		RUN_CPPCHECK=true
+		RUN_IWYU=false
+		;;
+	iwyu)
+		shift
+		RUN_CLANG_TIDY=false
+		RUN_CPPCHECK=false
+		RUN_IWYU=true
+		;;
+	-h)
+		shift
+		usage
+		;;
+	--help)
+		shift
+		usage
+		;;
+	*)
+		break
+		;;
 	esac
 done
 
@@ -59,7 +58,7 @@ BUILD_FOLDER="build/analysis"
 
 cd "$SCRIPT_PATH"/..
 
-if [ "$RUN_CLANG_TIDY" = true ] ; then
+if [ "$RUN_CLANG_TIDY" = true ]; then
 	echo "Running Clang-tidy"
 	echo
 	cmake -S . -B "$BUILD_FOLDER"/clang-tidy -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug
@@ -68,7 +67,7 @@ if [ "$RUN_CLANG_TIDY" = true ] ; then
 	echo
 fi
 
-if [ "$RUN_CPPCHECK" = true ] ; then
+if [ "$RUN_CPPCHECK" = true ]; then
 	echo "Running CppCheck"
 	echo
 	cmake -S . -B "$BUILD_FOLDER"/cppcheck -DENABLE_CPPCHECK=ON -DCMAKE_BUILD_TYPE=Debug
@@ -77,7 +76,7 @@ if [ "$RUN_CPPCHECK" = true ] ; then
 	echo
 fi
 
-if [ "$RUN_IWYU" = true ] ; then
+if [ "$RUN_IWYU" = true ]; then
 	echo "Running IWYU"
 	echo
 	cmake -S . -B "$BUILD_FOLDER"/iwyu -DENABLE_INCLUDE_WHAT_YOU_USE=ON -DCMAKE_BUILD_TYPE=Debug
